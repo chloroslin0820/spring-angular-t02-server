@@ -18,7 +18,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public UserDto createCustomer(SignupRequest signupRequest) {
 
-        if (userRepository.existsByEmail(signupRequest.getEmail())) {
+        if (validateEmailExists(signupRequest.getEmail())) {
             throw new IllegalArgumentException("Email has already been registered");
         }
 
@@ -36,5 +36,10 @@ public class AuthServiceImpl implements AuthService {
         userDto.setId(createdUser.getId());
 
         return userDto;
+    }
+
+    @Override
+    public boolean validateEmailExists(String email) {
+        return (userRepository.existsByEmail(email));
     }
 }
