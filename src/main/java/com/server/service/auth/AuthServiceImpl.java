@@ -8,6 +8,7 @@ import com.server.entity.User;
 import com.server.enums.UserRole;
 import com.server.repository.UserRepository;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -37,6 +38,21 @@ public class AuthServiceImpl implements AuthService {
         userDto.setId(createdUser.getId());
 
         return userDto;
+    }
+
+    @PostConstruct
+    public void createAdminAccount() {
+        User adminAccount = userRepository.findByUserRole(UserRole.Admin);
+
+        if(adminAccount == null) {
+            User newAdminAccount = new User();
+            newAdminAccount.setName("Admin");
+            newAdminAccount.setEmail("admin@test.com");
+            newAdminAccount.setPassword(new BCryptPasswordEncoder().encode("admin"));
+            newAdminAccount.setUserRole(UserRole.Admin);
+            userRepository.save(newAdminAccount);
+            System.out.println("Admin account created successfully");
+        }
     }
 
     @Override

@@ -8,4 +8,6 @@ public interface AuthService {
     UserDto createCustomer(SignupRequest signupRequest);
 
     boolean validateEmailExists(String email);
+
+    void createAdminAccount();
 }
