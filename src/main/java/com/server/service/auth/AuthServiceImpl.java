@@ -1,5 +1,6 @@
 package com.server.service.auth;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.server.dto.SignupRequest;
 import com.server.dto.UserDto;
@@ -26,7 +27,7 @@ public class AuthServiceImpl implements AuthService {
 
         user.setName(signupRequest.getName());
         user.setEmail(signupRequest.getEmail());
-        user.setPassword(signupRequest.getPassword());
+        user.setPassword(new BCryptPasswordEncoder().encode(signupRequest.getPassword()));
         user.setUserRole(UserRole.Customer);
 
         User createdUser = userRepository.save(user);
