@@ -2,6 +2,8 @@ package com.server.entity;
 
 import java.util.Date;
 
+import com.server.dto.CarDto;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -37,4 +39,19 @@ public class Car {
 
     @Column(columnDefinition = "longblob")
     private byte[] image;
+
+    public CarDto getCarDto() {
+        CarDto carDto = new CarDto();
+        carDto.setId(this.id);
+        carDto.setBrand(this.brand);
+        carDto.setColor(this.color);
+        carDto.setName(this.name);
+        carDto.setType(this.type);
+        carDto.setTransmission(this.transmission);
+        carDto.setDescription(this.description);
+        carDto.setPrice(this.price);
+        carDto.setYear(this.year);
+        carDto.setReturnImage(image);
+        return carDto;
+    }
 }

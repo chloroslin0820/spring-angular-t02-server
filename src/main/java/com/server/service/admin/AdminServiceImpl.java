@@ -1,5 +1,8 @@
 package com.server.service.admin;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,7 +20,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public boolean postCar(CarDto carDto) {
-        
+
         try {
 
             Car car = new Car();
@@ -43,5 +46,13 @@ public class AdminServiceImpl implements AdminService {
         }
     }
 
+    @Override
+    public List<CarDto> getAllCars() {
+        return carRepository
+                .findAll()
+                .stream()
+                .map(Car::getCarDto)
+                .collect(Collectors.toList());
+    };
 
 }
