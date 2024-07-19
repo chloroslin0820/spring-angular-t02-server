@@ -1,6 +1,7 @@
 package com.server.service.admin;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -58,5 +59,11 @@ public class AdminServiceImpl implements AdminService {
     public void deleteCar(Long id) {
         carRepository.deleteById(id);
     };
+
+    public CarDto getCarById(Long id) {
+        Optional<Car> optionalCar = carRepository.findById(id);
+        return optionalCar.map(Car::getCarDto).orElse(null);
+    };
+
 
 }
