@@ -1,6 +1,7 @@
 package com.server.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.server.dto.CarBookingDto;
 import com.server.dto.CarDto;
 import com.server.service.admin.AdminService;
 
@@ -65,5 +67,9 @@ public class AdminController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    public ResponseEntity<List<CarBookingDto>> getBookings() {
+        return ResponseEntity.ok(adminService.getBookings());
     }
 }

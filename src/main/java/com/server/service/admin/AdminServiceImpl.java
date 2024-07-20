@@ -8,8 +8,11 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.server.dto.CarBookingDto;
 import com.server.dto.CarDto;
 import com.server.entity.Car;
+import com.server.entity.CarBooking;
+import com.server.repository.CarBookingRepository;
 import com.server.repository.CarRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -19,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class AdminServiceImpl implements AdminService {
 
     private final CarRepository carRepository;
+    private final CarBookingRepository carBookingRepository;
 
     @Override
     public boolean postCar(CarDto carDto) {
@@ -66,6 +70,7 @@ public class AdminServiceImpl implements AdminService {
         return optionalCar.map(Car::getCarDto).orElse(null);
     };
 
+    @Override
     public boolean updateCar(Long id, CarDto carDto) {
         Optional<Car> optionalCar = carRepository.findById(id);
         if (optionalCar.isPresent()) {
@@ -95,6 +100,16 @@ public class AdminServiceImpl implements AdminService {
             return false;
         }
     };
+
+    @Override
+    public List<CarBookingDto> getBookings() {
+        return carBookingRepository
+                .findAll()
+                .stream()
+                .map(CarBooking::getCarBookingDto)
+                .collect(Collectors.toList());
+    };
+
 
 
 }
