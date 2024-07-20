@@ -52,8 +52,10 @@ public class AdminController {
     }
 
     @PutMapping("/car/{id}")
-    public ResponseEntity<Void> updateCar(@PathVariable Long id, @ModelAttribute CarDto carDto) {
+    public ResponseEntity<Void> updateCar(@PathVariable Long id, @ModelAttribute CarDto carDto) throws IOException {
         try {
+            System.out.println("Year: " + carDto.getYear());
+
             boolean success = adminService.updateCar(id, carDto);
             if (success) {
                 return ResponseEntity.ok().build();

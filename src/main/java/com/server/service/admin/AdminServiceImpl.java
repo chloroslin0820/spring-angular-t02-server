@@ -1,5 +1,6 @@
 package com.server.service.admin;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -82,7 +83,8 @@ public class AdminServiceImpl implements AdminService {
             if (imageFile != null && !imageFile.isEmpty()) {
                 try {
                     car.setImage(imageFile.getBytes());
-                } catch (Exception e) {
+                } catch (IOException e) {
+                    e.printStackTrace();
                     return false;
                 }
             }
