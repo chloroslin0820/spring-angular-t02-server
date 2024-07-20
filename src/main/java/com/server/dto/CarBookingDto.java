@@ -24,4 +24,8 @@ public class CarBookingDto {
     private Long carId;
 
     private Long userId;
+
+    private String userName;
+
+    private String email;
 }

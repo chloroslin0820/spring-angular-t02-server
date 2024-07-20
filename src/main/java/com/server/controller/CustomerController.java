@@ -2,9 +2,11 @@ package com.server.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,10 +29,11 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.getAllCars());
     }
 
-    public ResponseEntity<Void> bookCar(@RequestBody CarBookingDto carBookingDto) {
-        boolean success = customerService.bookCar(carBookingDto);
+    @PostMapping("/car/book/{carId}")
+    public ResponseEntity<Void> bookCar(@PathVariable Long carId, @RequestBody CarBookingDto carBookingDto) {
+        boolean success = customerService.bookCar(carId, carBookingDto);
         if (success) {
-            return ResponseEntity.ok().build();
+            return ResponseEntity.status(HttpStatus.CREATED).build();
         }
         return ResponseEntity.badRequest().build();
     }
@@ -41,5 +44,10 @@ public class CustomerController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(customerService.getCarById(id));
+    }
+
+    @GetMapping("/car/bookings/{userId}")
+    public ResponseEntity<List<CarBookingDto>> getBookingsByUserId(@PathVariable Long userId) {
+        return ResponseEntity.ok(customerService.getBookingsByUserId(userId));
     }
 }

@@ -6,6 +6,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.server.dto.CarBookingDto;
 import com.server.enums.BookCarStatus;
 
 import jakarta.persistence.Entity;
@@ -46,4 +47,19 @@ public class CarBooking {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Car car;
+
+    public CarBookingDto getCarBookingDto() {
+        CarBookingDto carBookingDto = new CarBookingDto();
+        carBookingDto.setId(id);
+        carBookingDto.setFromDate(fromDate);
+        carBookingDto.setToDate(toDate);
+        carBookingDto.setDays(days);
+        carBookingDto.setPrice(price);
+        carBookingDto.setBookCarStatus(bookCarStatus);
+        carBookingDto.setCarId(car.getId());
+        carBookingDto.setUserId(user.getId());
+        carBookingDto.setUserName(user.getName());
+        carBookingDto.setEmail(user.getEmail());
+        return carBookingDto;
+    }
 }
