@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.server.dto.CarBookingDto;
 import com.server.dto.CarDto;
+import com.server.dto.SearchCarDto;
 import com.server.service.admin.AdminService;
 
 import lombok.RequiredArgsConstructor;
@@ -69,7 +71,13 @@ public class AdminController {
         }
     }
 
+    @GetMapping("/car/bookings")
     public ResponseEntity<List<CarBookingDto>> getBookings() {
         return ResponseEntity.ok(adminService.getBookings());
+    }
+
+    @PostMapping("/car/search")
+    public ResponseEntity<?> searchCar(@RequestBody SearchCarDto searchCarDto) {
+        return ResponseEntity.ok(adminService.searchCar(searchCarDto));
     }
 }

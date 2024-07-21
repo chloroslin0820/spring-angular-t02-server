@@ -5,11 +5,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.server.dto.CarBookingDto;
 import com.server.dto.CarDto;
+import com.server.dto.CarDtoListDto;
+import com.server.dto.SearchCarDto;
 import com.server.entity.Car;
 import com.server.entity.CarBooking;
 import com.server.repository.CarBookingRepository;
@@ -110,6 +114,30 @@ public class AdminServiceImpl implements AdminService {
                 .collect(Collectors.toList());
     };
 
+    @Override
+    public CarDtoListDto searchCar(SearchCarDto searchCarDto) {
+        Car car = new Car();
+        car.setBrand(searchCarDto.getBrand());
+        car.setType(searchCarDto.getType());
+        car.setTransmission(searchCarDto.getTransmission());
+        car.setColor(searchCarDto.getColor());
+        ExampleMatcher matcher = 
+            ExampleMatcher.matchingAll()
+                .withMatcher("brand", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withMatcher("type", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withMatcher("transmission", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withMatcher("color", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
+        Example<Car> example = Example.of(car, matcher);
+        List<Car> carList = carRepository.findAll(example);
+        CarDtoListDto carDtoListDto = new CarDtoListDto();
+        carDtoListDto.setCarDtoList(
+            carList
+                .stream()
+                .map(Car::getCarDto)
+                .collect(Collectors.toList())
+        );
+        return carDtoListDto;
+    };
 
 
 }

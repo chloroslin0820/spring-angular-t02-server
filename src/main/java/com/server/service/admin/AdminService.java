@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.server.dto.CarBookingDto;
 import com.server.dto.CarDto;
+import com.server.dto.CarDtoListDto;
+import com.server.dto.SearchCarDto;
 
 public interface AdminService {
 
@@ -18,4 +20,7 @@ public interface AdminService {
     boolean updateCar(Long id, CarDto carDto);
 
     List<CarBookingDto> getBookings();
+
+    CarDtoListDto searchCar(SearchCarDto searchCarDto);
+
 }
